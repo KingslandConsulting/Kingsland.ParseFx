@@ -13,6 +13,11 @@ namespace Kingsland.ParseFx.Lexing
 
         #region Constructors
 
+        public Lexer()
+            : this (new List<ILexerRule>())
+        {
+        }
+
         public Lexer(IEnumerable<ILexerRule> rules)
         {
             this.Rules = new ReadOnlyCollection<ILexerRule>(
