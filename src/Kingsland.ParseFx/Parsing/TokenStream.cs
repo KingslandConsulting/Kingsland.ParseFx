@@ -9,19 +9,12 @@ namespace Kingsland.ParseFx.Parsing
     internal sealed class TokenStream
     {
 
-        #region Field
-
-        private List<Token> source;
-        private int position;
-
-        #endregion
-
         #region Constructors
 
         public TokenStream(List<Token> source)
         {
-            this.source = source ?? throw new ArgumentNullException(nameof(source));
-            this.position = 0;
+            this.Source = source ?? throw new ArgumentNullException(nameof(source));
+            this.Position = 0;
         }
 
         #endregion
@@ -30,26 +23,22 @@ namespace Kingsland.ParseFx.Parsing
 
         private List<Token> Source
         {
-            get
-            {
-                return this.source;
-            }
+            get;
+            set;
         }
 
         public int Position
         {
-            get
-            {
-                return this.position;
-            }
+            get;
+            set;
         }
 
         public bool Eof
         {
             get
             {
-                return (this.source.Count == 0) ||
-                       (this.position >= this.source.Count);
+                return (this.Source.Count == 0) ||
+                       (this.Position >= this.Source.Count);
             }
         }
 
@@ -59,18 +48,18 @@ namespace Kingsland.ParseFx.Parsing
 
         public Token Peek()
         {
-            if ((this.source.Count == 0) ||
-               (this.position >= this.source.Count))
+            if ((this.Source.Count == 0) ||
+               (this.Position >= this.Source.Count))
             {
                 throw new UnexpectedEndOfStreamException();
             }
-            return this.source[this.position];
+            return this.Source[this.Position];
         }
 
         public T Peek<T>() where T : Token
         {
-            if ((this.source.Count == 0) ||
-               (this.position >= this.source.Count))
+            if ((this.Source.Count == 0) ||
+               (this.Position >= this.Source.Count))
             {
                 throw new UnexpectedEndOfStreamException();
             }
@@ -84,8 +73,8 @@ namespace Kingsland.ParseFx.Parsing
         public bool TryPeek<T>() where T : Token
         {
 
-            if ((this.source.Count == 0) ||
-               (this.position >= this.source.Count))
+            if ((this.Source.Count == 0) ||
+               (this.Position >= this.Source.Count))
             {
                 return false;
             }
@@ -94,12 +83,12 @@ namespace Kingsland.ParseFx.Parsing
 
         public bool TryPeek<T>(out T result) where T : Token
         {
-            if ((this.source.Count == 0) ||
-                (this.position >= this.source.Count))
+            if ((this.Source.Count == 0) ||
+                (this.Position >= this.Source.Count))
             {
                 throw new UnexpectedEndOfStreamException();
             }
-            var peek = this.source[this.position] as T;
+            var peek = this.Source[this.Position] as T;
             if (peek == null)
             {
                 result = null;
@@ -112,12 +101,12 @@ namespace Kingsland.ParseFx.Parsing
         public bool TryPeek<T>(Func<T, bool> predicate, out T result) where T : Token
         {
 
-            if ((this.source.Count == 0) ||
-                (this.position >= this.source.Count))
+            if ((this.Source.Count == 0) ||
+                (this.Position >= this.Source.Count))
             {
                 throw new UnexpectedEndOfStreamException();
             }
-            var peek = this.source[this.position] as T;
+            var peek = this.Source[this.Position] as T;
             if ((peek != null) && predicate(peek))
             {
                 result = peek;
@@ -134,7 +123,7 @@ namespace Kingsland.ParseFx.Parsing
         public Token Read()
         {
             var value = this.Peek();
-            this.position += 1;
+            this.Position += 1;
             return value;
         }
 
@@ -184,7 +173,7 @@ namespace Kingsland.ParseFx.Parsing
             {
                 throw new InvalidOperationException();
             }
-            this.position -= count;
+            this.Position -= count;
         }
 
         #endregion
