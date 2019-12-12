@@ -43,10 +43,10 @@ $nunitConsole = [System.IO.Path]::Combine($pkgFolder, "nunit.consolerunner\3.9.0
 $nuget        = [System.IO.Path]::Combine($pkgFolder, "nuget.commandline\5.3.1\tools\NuGet.exe");
 
 $nunitTestAssemblies = @(
-    [System.IO.Path]::Combine($rootFolder, "src\Kingsland.MofParser.UnitTests\bin\Debug\Kingsland.MofParser.UnitTests.dll")
+#    [System.IO.Path]::Combine($rootFolder, "src\Kingsland.MofParser.UnitTests\bin\Debug\Kingsland.MofParser.UnitTests.dll")
 );
 
-$nuspec = [System.IO.Path]::Combine($rootFolder, "src\Kingsland.MofParser.nuspec");
+$nuspec = [System.IO.Path]::Combine($rootFolder, "src\Kingsland.ParseFx\Kingsland.ParseFx.nuspec");
 
 
 if( Test-IsTeamCityBuild )
@@ -77,13 +77,13 @@ $msbuildParameters = @{
 Invoke-MsBuild @msbuildParameters;
 
 
-## determine build number for the nuget package
-#$versionInfo = Invoke-GitVersion -GitVersion $gitVersion;
-##$buildNumber = $versionInfo.SemVer;
-#$buildNumber = $versionInfo.LegacySemVer;
-#write-host "version info = ";
-#write-host ($versionInfo | fl * | out-string);
-#write-host "build number = '$buildNumber'";
+# determine build number for the nuget package
+$versionInfo = Invoke-GitVersion -GitVersion $gitVersion;
+#$buildNumber = $versionInfo.SemVer;
+$buildNumber = $versionInfo.LegacySemVer;
+write-host "version info = ";
+write-host ($versionInfo | fl * | out-string);
+write-host "build number = '$buildNumber'";
 
 
 # build the solution
@@ -93,35 +93,39 @@ $msbuildParameters = @{
     "MsBuildExe"   = $msbuild
     "Solution"     = $solution
     "Targets"      = @( "Clean", "Restore", "Build" )
-    "Properties"   = @{}
-    #"Verbosity"    =  "minimal"
+    "Properties"   = @{
+        "PackageVersion" = $BuildNumber
+    }
     "Verbosity"    =  "normal"
 };
 Invoke-MsBuild @msbuildParameters;
 
 
 # execute unit tests
-#foreach( $assembly in $nunitTestAssemblies )
-#{
-#    Invoke-NUnitConsole -NUnitConsole $nunitConsole -Assembly $assembly;
-#}
+foreach( $assembly in $nunitTestAssemblies )
+{
+    Invoke-NUnitConsole -NUnitConsole $nunitConsole -Assembly $assembly;
+}
 
 
+# package the solution
+$env:NUGET_PACKAGES         = $pkgFolder;
+$env:NUGET_HTTP_CACHE_PATH  = $pkgFolder;
+$msbuildParameters = @{
+    "MsBuildExe"   = $msbuild
+    "Solution"     = $solution
+    "Targets"      = @( "Pack" )
+    "Properties"   = @{
+        "PackageVersion" = $BuildNumber
+    }
+    "Verbosity"    =  "normal"
+};
+Invoke-MsBuild @msbuildParameters;
 
-## configure nuspec package
-#$xml = new-object System.Xml.XmlDocument;
-#$xml.Load($nuspec);
-#$xml.package.metadata.version = $buildNumber;
-#$xml.Save($nuspec);
 
-
-## pack nuget package
-##$nupkg  = [System.IO.Path]::Combine($rootFolder, "Kingsland.MofParser." + $BuildNumber + ".nupkg");
-#Invoke-NuGetPack -NuGet $nuget -NuSpec $nuspec -OutputDirectory $rootFolder;
-
-
-## push nuget package
-#if( $PSBoundParameters.ContainsKey("NuGetApiKey") )
-#{
-#    Invoke-NuGetPush -NuGet $nuget -PackagePath $nupkg -Source "https://nuget.org" -ApiKey $NuGetApiKey;
-#}
+# push nuget package
+if( $PSBoundParameters.ContainsKey("NuGetApiKey") )
+{
+    $nupkg = [System.IO.Path]::Combine($rootFolder, "src\Kingsland.ParseFx\bin\Debug\Kingsland.ParseFx.$BuildNumber.nupkg");
+    Invoke-NuGetPush -NuGet $nuget -PackagePath $nupkg -Source "https://nuget.org" -ApiKey $NuGetApiKey;
+}
