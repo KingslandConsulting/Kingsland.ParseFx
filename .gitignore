@@ -1,0 +1,9 @@
+.vs
+bin
+obj
+packages
+
+*.nupkg
+*.user
+
+build/TestResult.xml

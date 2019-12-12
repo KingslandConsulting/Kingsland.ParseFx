@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingsland.ParseFx", "Kingsland.ParseFx\Kingsland.ParseFx.csproj", "{19733D92-5621-4339-8F50-F6DF5CCBFC30}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{0157F575-9BE3-4975-AAA7-A9ECD4E453FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingsland.BuildTools", "Kingsland.BuildTools\Kingsland.BuildTools.csproj", "{40708359-31DE-45F0-B56E-605DA9522F74}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19733D92-5621-4339-8F50-F6DF5CCBFC30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19733D92-5621-4339-8F50-F6DF5CCBFC30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19733D92-5621-4339-8F50-F6DF5CCBFC30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19733D92-5621-4339-8F50-F6DF5CCBFC30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40708359-31DE-45F0-B56E-605DA9522F74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40708359-31DE-45F0-B56E-605DA9522F74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40708359-31DE-45F0-B56E-605DA9522F74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40708359-31DE-45F0-B56E-605DA9522F74}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{40708359-31DE-45F0-B56E-605DA9522F74} = {0157F575-9BE3-4975-AAA7-A9ECD4E453FA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1DBD7F8D-6638-44AD-9A24-7288266DD43F}
+	EndGlobalSection
+EndGlobal
