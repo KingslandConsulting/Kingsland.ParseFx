@@ -1,19 +1,20 @@
 ﻿using Kingsland.ParseFx.Lexing;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Kingsland.ParseFx.Parsing
 {
 
-    internal sealed class TokenStream
+    public sealed class TokenStream
     {
 
         #region Constructors
 
-        public TokenStream(List<Token> source)
+        public TokenStream(IEnumerable<Token> source)
         {
-            this.Source = source ?? throw new ArgumentNullException(nameof(source));
+            this.Source = source?.ToList() ?? throw new ArgumentNullException(nameof(source));
             this.Position = 0;
         }
 
