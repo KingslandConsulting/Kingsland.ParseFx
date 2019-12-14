@@ -6,7 +6,7 @@
 
         #region Constructors
 
-        internal AstNode()
+        protected AstNode()
         {
         }
 

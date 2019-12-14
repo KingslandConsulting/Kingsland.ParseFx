@@ -8,7 +8,7 @@
     <!--    <license type="file">LICENSE</license> -->
     <projectUrl>https://github.com/KingslandConsulting/Kingsland.ParseFx</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>A  C# library to simplify some of the boring bits of writing a lexer and parser for custom file formats</description>
+    <description>A C# library to simplify some of the boring bits of writing a lexer and parser for custom file formats</description>
     <tags>
     </tags>
   </metadata>
