@@ -1,18 +1,14 @@
-﻿using Kingsland.ParseFx.Lexing;
-using Kingsland.ParseFx.Text;
-using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace Kingsland.ParseFx.Rules
 {
 
-    public sealed class RegexRule : LexerRule
+    public sealed class RegexMatch : IMatch
     {
 
         #region Constructors
 
-        public RegexRule(string pattern, Func<SourceReader, (Token, SourceReader)> action)
-            : base(action)
+        public RegexMatch(string pattern)
         {
             this.Pattern = pattern;
             this.Regex = new Regex(pattern, RegexOptions.Compiled);
@@ -38,7 +34,7 @@ namespace Kingsland.ParseFx.Rules
 
         #region LexerRule Members
 
-        public override bool Matches(char value)
+        public bool Matches(char value)
         {
             return this.Regex.IsMatch(
                 new string(value, 1)

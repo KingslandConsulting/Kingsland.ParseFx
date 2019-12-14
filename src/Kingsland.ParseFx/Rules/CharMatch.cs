@@ -1,17 +1,12 @@
-﻿using System;
-using Kingsland.ParseFx.Lexing;
-using Kingsland.ParseFx.Text;
-
-namespace Kingsland.ParseFx.Rules
+﻿namespace Kingsland.ParseFx.Rules
 {
 
-    public sealed class CharRule : LexerRule
+    public sealed class CharMatch : IMatch
     {
 
         #region Constructors
 
-        public CharRule(char value, Func<SourceReader, (Token, SourceReader)> action)
-            : base(action)
+        public CharMatch(char value)
         {
             this.Value = value;
         }
@@ -30,7 +25,7 @@ namespace Kingsland.ParseFx.Rules
 
         #region LexerRule Members
 
-        public override bool Matches(char value)
+        public bool Matches(char value)
         {
             return (value == this.Value);
         }

@@ -14,29 +14,29 @@ namespace Kingsland.ParseFx.Lexing
         #region Constructors
 
         public Lexer()
-            : this (new List<ILexerRule>())
+            : this(new List<LexerRule>())
         {
         }
 
-        public Lexer(IEnumerable<ILexerRule> rules)
+        public Lexer(IEnumerable<LexerRule> rules)
         {
-            this.Rules = new ReadOnlyCollection<ILexerRule>(
+            this.Rules = new ReadOnlyCollection<LexerRule>(
                 (rules ?? throw new ArgumentNullException(nameof(rules))).ToList()
             );
-            this.RuleCache = new Dictionary<char, ILexerRule>();
+            this.RuleCache = new Dictionary<char, LexerRule>();
         }
 
         #endregion
 
         #region Properties
 
-        public ReadOnlyCollection<ILexerRule> Rules
+        public ReadOnlyCollection<LexerRule> Rules
         {
             get;
             private set;
         }
 
-        private Dictionary<char, ILexerRule> RuleCache
+        private Dictionary<char, LexerRule> RuleCache
         {
             get;
             set;
@@ -71,12 +71,46 @@ namespace Kingsland.ParseFx.Lexing
             {
                 this.RuleCache.Add(
                     peek.Value,
-                    this.Rules.FirstOrDefault(r => r.Matches(peek.Value))
+                    this.Rules.FirstOrDefault(r => r.Match.Matches(peek.Value))
                         ?? throw new UnexpectedCharacterException(peek)
                 );
             }
             // apply the rule for the next character
-            return this.RuleCache[peek.Value].Scan(reader);
+            return this.RuleCache[peek.Value].Action.Invoke(reader);
+        }
+
+        #endregion
+
+        #region LexerRule Methods
+
+        public Lexer AddRule(char value, Func<SourceExtent, Token> constructor)
+        {
+            return this.AddRule(
+                new CharMatch(value),
+                reader =>
+                {
+                    (var sourceChar, var nextReader) = reader.Read(value);
+                    var extent = SourceExtent.From(sourceChar);
+                    return (constructor(extent), nextReader);
+                }
+            );
+        }
+
+        public Lexer AddRule(char value, Func<SourceReader, (Token, SourceReader)> action)
+        {
+            return this.AddRule(new CharMatch(value), action);
+        }
+
+        public Lexer AddRule(string pattern, Func<SourceReader, (Token, SourceReader)> action)
+        {
+            return this.AddRule(new RegexMatch(pattern), action);
+        }
+
+        public Lexer AddRule(IMatch match, Func<SourceReader, (Token, SourceReader)> action)
+        {
+            var newRules = this.Rules.ToList();
+            newRules.Add(new LexerRule(match, new Rules.Action(action)));
+            return new Lexer(newRules);
         }
 
         #endregion

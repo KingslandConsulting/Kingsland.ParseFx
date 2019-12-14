@@ -5,13 +5,14 @@ using System;
 namespace Kingsland.ParseFx.Rules
 {
 
-    public abstract class LexerRule : ILexerRule
+    public sealed class LexerRule
     {
 
         #region Constructors
 
-        public LexerRule(Func<SourceReader, (Token, SourceReader)> action)
+        internal LexerRule(IMatch match, IAction action)
         {
+            this.Match = match ?? throw new ArgumentNullException(nameof(match));
             this.Action = action ?? throw new ArgumentNullException(nameof(action));
         }
 
@@ -19,21 +20,16 @@ namespace Kingsland.ParseFx.Rules
 
         #region Properties
 
-        public abstract bool Matches(char value);
-
-        public Func<SourceReader, (Token, SourceReader)> Action
+        public IMatch Match
         {
             get;
             private set;
         }
 
-        #endregion
-
-        #region ILexerRule Interface
-
-        public (Token, SourceReader) Scan(SourceReader reader)
+        public IAction Action
         {
-            return this.Action(reader);
+            get;
+            private set;
         }
 
         #endregion
