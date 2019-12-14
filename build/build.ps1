@@ -38,7 +38,7 @@ $msbuild      = "$vsRoot\MSBuild\Current\Bin\MSBuild.exe";
 $solution     = [System.IO.Path]::Combine($rootFolder, "src\Kingsland.ParseFx.sln");
 
 $pkgFolder    = [System.IO.Path]::Combine($rootFolder, "packages");
-$gitVersion   = [System.IO.Path]::Combine($pkgFolder, "gitversion.commandline\4.0.0\tools\GitVersion.exe");
+$gitVersion   = [System.IO.Path]::Combine($pkgFolder, "gitversion.commandline\5.1.2\tools\GitVersion.exe");
 $nunitConsole = [System.IO.Path]::Combine($pkgFolder, "nunit.consolerunner\3.9.0\tools\nunit3-console.exe");
 $nuget        = [System.IO.Path]::Combine($pkgFolder, "nuget.commandline\5.3.1\tools\NuGet.exe");
 
