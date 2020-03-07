@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Kingsland.ParseFx.Text
+namespace Kingsland.ParseFx.Lexing.Text
 {
 
     /// <summary>

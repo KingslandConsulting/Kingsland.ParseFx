@@ -1,8 +1,7 @@
-﻿using Kingsland.ParseFx.Lexing;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
-namespace Kingsland.ParseFx.Text
+namespace Kingsland.ParseFx.Lexing.Text
 {
 
     public sealed class SourceStream

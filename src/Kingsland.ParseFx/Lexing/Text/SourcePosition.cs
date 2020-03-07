@@ -1,4 +1,4 @@
-﻿namespace Kingsland.ParseFx.Text
+﻿namespace Kingsland.ParseFx.Lexing.Text
 {
 
     public sealed class SourcePosition
