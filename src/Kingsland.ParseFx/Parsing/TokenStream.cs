@@ -47,6 +47,11 @@ namespace Kingsland.ParseFx.Parsing
 
         #region Peek Methods
 
+        /// <summary>
+        /// Retrieves, but does not consume, the next token in the stream.
+        /// Throws an exception if the stream has no more tokens to read.
+        /// </summary>
+        /// <returns></returns>
         public Token Peek()
         {
             if ((this.Source.Count == 0) ||
@@ -57,6 +62,12 @@ namespace Kingsland.ParseFx.Parsing
             return this.Source[this.Position];
         }
 
+        /// <summary>
+        /// Retrieves, but does not consume, the next token in the stream.
+        /// If the token is not of type T it is discarded and the function returns null instead.
+        /// Throws an exception if the stream has no more tokens to read.
+        /// </summary>
+        /// <returns></returns>
         public T Peek<T>() where T : Token
         {
             if ((this.Source.Count == 0) ||
@@ -71,6 +82,12 @@ namespace Kingsland.ParseFx.Parsing
 
         #region TryPeek Methods
 
+        /// <summary>
+        /// Retrieves, but does not consume, the next token in the stream.
+        /// Returns true if the next token was of type T, otherwise false.
+        /// Returns false if the stream has no more tokens to read.
+        /// </summary>
+        /// <returns></returns>
         public bool TryPeek<T>() where T : Token
         {
 
@@ -82,12 +99,21 @@ namespace Kingsland.ParseFx.Parsing
             return (this.Source[this.Position] is T);
         }
 
+        /// <summary>
+        /// Retrieves, but does not consume, the next token in the stream.
+        /// Returns true if the next token was of type T, otherwise false.
+        /// Returns false if the stream has no more tokens to read.
+        /// If the token is of type T it is assigned to the output variable.
+        /// Throws an exception if the stream has no more tokens to read.
+        /// </summary>
+        /// <returns></returns>
         public bool TryPeek<T>(out T result) where T : Token
         {
             if ((this.Source.Count == 0) ||
                 (this.Position >= this.Source.Count))
             {
-                throw new UnexpectedEndOfStreamException();
+                result = null;
+                return false;
             }
             var peek = this.Source[this.Position] as T;
             if (peek == null)
@@ -121,6 +147,11 @@ namespace Kingsland.ParseFx.Parsing
 
         #region Read Methods
 
+        /// <summary>
+        /// Retrieves, and consumes, the next token in the stream.
+        /// Throws an exception if the stream has no more tokens to read.
+        /// </summary>
+        /// <returns></returns>
         public Token Read()
         {
             var value = this.Peek();
@@ -128,6 +159,12 @@ namespace Kingsland.ParseFx.Parsing
             return value;
         }
 
+        /// <summary>
+        /// Retrieves, and consumes, the next token in the stream.
+        /// If the token is not of type T an exception is thrown.
+        /// Throws an exception if the stream has no more tokens to read.
+        /// </summary>
+        /// <returns></returns>
         public T Read<T>() where T : Token
         {
             var token = this.Peek();
