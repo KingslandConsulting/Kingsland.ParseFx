@@ -1,14 +1,14 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Kingsland.ParseFx.Rules
+namespace Kingsland.ParseFx.Lexing.Rules
 {
 
-    public sealed class RegexMatch : IMatch
+    public sealed class RegexMatchRule : IMatchRule
     {
 
         #region Constructors
 
-        public RegexMatch(string pattern)
+        public RegexMatchRule(string pattern)
         {
             this.Pattern = pattern;
             this.Regex = new Regex(pattern, RegexOptions.Compiled);

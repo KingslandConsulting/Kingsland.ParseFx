@@ -1,12 +1,12 @@
-﻿namespace Kingsland.ParseFx.Rules
+﻿namespace Kingsland.ParseFx.Lexing.Rules
 {
 
-    public sealed class CharMatch : IMatch
+    public sealed class CharMatchRule : IMatchRule
     {
 
         #region Constructors
 
-        public CharMatch(char value)
+        public CharMatchRule(char value)
         {
             this.Value = value;
         }

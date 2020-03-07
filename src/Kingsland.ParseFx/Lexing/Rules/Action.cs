@@ -1,8 +1,7 @@
-﻿using Kingsland.ParseFx.Lexing;
-using Kingsland.ParseFx.Text;
+﻿using Kingsland.ParseFx.Lexing.Text;
 using System;
 
-namespace Kingsland.ParseFx.Rules
+namespace Kingsland.ParseFx.Lexing.Rules
 {
 
     public sealed class Action : IAction

@@ -1,8 +1,7 @@
-﻿using Kingsland.ParseFx.Lexing;
-using Kingsland.ParseFx.Text;
+﻿using Kingsland.ParseFx.Lexing.Text;
 using System;
 
-namespace Kingsland.ParseFx.Rules
+namespace Kingsland.ParseFx.Lexing.Rules
 {
 
     public sealed class LexerRule
@@ -10,7 +9,7 @@ namespace Kingsland.ParseFx.Rules
 
         #region Constructors
 
-        internal LexerRule(IMatch match, IAction action)
+        internal LexerRule(IMatchRule match, Func<SourceReader, (Token, SourceReader)> action)
         {
             this.Match = match ?? throw new ArgumentNullException(nameof(match));
             this.Action = action ?? throw new ArgumentNullException(nameof(action));
@@ -20,13 +19,13 @@ namespace Kingsland.ParseFx.Rules
 
         #region Properties
 
-        public IMatch Match
+        public IMatchRule Match
         {
             get;
             private set;
         }
 
-        public IAction Action
+        public Func<SourceReader, (Token, SourceReader)> Action
         {
             get;
             private set;
