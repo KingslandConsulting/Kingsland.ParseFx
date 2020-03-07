@@ -1,5 +1,5 @@
-﻿using Kingsland.ParseFx.Rules;
-using Kingsland.ParseFx.Text;
+﻿using Kingsland.ParseFx.Lexing.Rules;
+using Kingsland.ParseFx.Lexing.Text;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -83,33 +83,38 @@ namespace Kingsland.ParseFx.Lexing
 
         #region LexerRule Methods
 
-        public Lexer AddRule(char value, Func<SourceExtent, Token> constructor)
-        {
-            return this.AddRule(
-                new CharMatch(value),
-                reader =>
-                {
-                    (var sourceChar, var nextReader) = reader.Read(value);
-                    var extent = SourceExtent.From(sourceChar);
-                    return (constructor(extent), nextReader);
-                }
-            );
-        }
+        //public Lexer AddRule(char value, Func<SourceExtent, Token> constructor)
+        //{
+        //    return this.AddRule(
+        //        new CharMatchRule(value),
+        //        reader =>
+        //        {
+        //            (var sourceChar, var nextReader) = reader.Read(value);
+        //            var extent = SourceExtent.From(sourceChar);
+        //            return (constructor(extent), nextReader);
+        //        }
+        //    );
+        //}
 
         public Lexer AddRule(char value, Func<SourceReader, (Token, SourceReader)> action)
         {
-            return this.AddRule(new CharMatch(value), action);
+            return this.AddRule(new CharMatchRule(value), action);
+        }
+
+        public Lexer AddRule(char fromValue, char toValue, Func<SourceReader, (Token, SourceReader)> action)
+        {
+            return this.AddRule(new RangeMatchRule(fromValue, toValue), action);
         }
 
         public Lexer AddRule(string pattern, Func<SourceReader, (Token, SourceReader)> action)
         {
-            return this.AddRule(new RegexMatch(pattern), action);
+            return this.AddRule(new RegexMatchRule(pattern), action);
         }
 
-        public Lexer AddRule(IMatch match, Func<SourceReader, (Token, SourceReader)> action)
+        public Lexer AddRule(IMatchRule match, Func<SourceReader, (Token, SourceReader)> action)
         {
             var newRules = this.Rules.ToList();
-            newRules.Add(new LexerRule(match, new Rules.Action(action)));
+            newRules.Add(new LexerRule(match, action));
             return new Lexer(newRules);
         }
 

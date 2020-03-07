@@ -1,4 +1,4 @@
-﻿using Kingsland.ParseFx.Text;
+﻿using Kingsland.ParseFx.Lexing.Text;
 using System;
 
 namespace Kingsland.ParseFx.Lexing
